@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+  <meta charset="UTF-8">
+  <title>Visszaszámláló – Augusztus 20.</title>
+  <style>
+    body {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      font-family: sans-serif;
+      color: #f0f8ff;
+      background-xcolor: #333;
+      margin: 0;
+    }
+    h1 {
+      margin-bottom: 1em;
+    }
+    #countdown {
+      font-size: 2em;
+    }
+  </style>
+</head>
+<body>
+
+<h1>Visszaszámlálás augusztus 20-ig:</h1>
+<div id="countdown">
+  -- nap --:-- óra --:-- perc --:-- másodperc
+</div>
+
+<script>
+  // Cél dátum: 2025. augusztus 20. éjfél (változtatható igény szerint)
+  const target = new Date(new Date().getFullYear(), 7, 20, 0, 0, 0);
+  // Ha már elmúlt az idei augusztus 20., akkor beállítjuk jövő évi   
+  if (new Date() > target) {
+    target.setFullYear(target.getFullYear() + 1);
+  }
+
+  function updateCountdown() {
+    const now = new Date();
+    const diff = target - now;
+    if (diff <= 0) {
+      document.getElementById('countdown').textContent = 'Elérkezett augusztus 20-a!';
+      clearInterval(timerId);
+      return;
+    }
+    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+    const minutes = Math.floor((diff / (1000 * 60)) % 60);
+    const seconds = Math.floor((diff / 1000) % 60);
+
+    document.getElementById('countdown').textContent =
+      days + ' nap ' +
+      String(hours).padStart(2, '0') + ' óra ' +
+      String(minutes).padStart(2, '0') + ' perc ' +
+      String(seconds).padStart(2, '0') + ' mp';
+  }
+
+  const timerId = setInterval(updateCountdown, 1000);
+  updateCountdown();
+</script>
+
+</body>
+</html>
